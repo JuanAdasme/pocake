@@ -19,8 +19,7 @@ class CreateDateSeedMigration extends AbstractMigration
                 return $faker->safeEmail();
             },
             'password' => function() {
-                $hasher = new DefaultPasswordHasher();
-                return $hasher->hash('s0p0rte');
+                return 's0p0rte';
             },
             'role' => 'user',
             'active' => function() {

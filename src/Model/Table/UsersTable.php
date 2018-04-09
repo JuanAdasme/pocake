@@ -54,56 +54,32 @@ class UsersTable extends Table
     public function validationDefault(Validator $validator)
     {
         $validator
-            ->integer('id')
-            ->allowEmpty('id', 'create');
+            ->add('id','valid', ['rule' => 'numeric'])
+            ->notEmpty('id', 'create');
 
         $validator
-            ->scalar('first_name')
-            ->maxLength('first_name', 100)
             ->requirePresence('first_name', 'create')
-            ->notEmpty('first_name');
+            ->notEmpty('first_name', 'Rellene este campo');
 
-        $validator
-            ->scalar('last_name')
-            ->maxLength('last_name', 100)
+            $validator
             ->requirePresence('last_name', 'create')
-            ->notEmpty('last_name');
+            ->notEmpty('last_name', 'Rellene este campo');
 
-        $validator
-            ->email('email')
+            $validator
+            ->add('email', 'valid', ['rule' => 'email', 'message' => 'Ingrese un correo váido'])
             ->requirePresence('email', 'create')
-            ->notEmpty('email');
+            ->notEmpty('email', 'Rellene este campo');
 
-        $validator
-            ->scalar('password')
-            ->maxLength('password', 255)
+            $validator
             ->requirePresence('password', 'create')
-            ->notEmpty('password');
-
-        $validator
-            ->scalar('role')
-            ->requirePresence('role', 'create')
-            ->notEmpty('role');
-
-        $validator
-            ->boolean('active')
-            ->requirePresence('active', 'create')
-            ->notEmpty('active');
+            ->notEmpty('password', 'Rellene este campo');
 
         return $validator;
     }
 
-    /**
-     * Returns a rules checker object that will be used for validating
-     * application integrity.
-     *
-     * @param \Cake\ORM\RulesChecker $rules The rules object to be modified.
-     * @return \Cake\ORM\RulesChecker
-     */
-    public function buildRules(RulesChecker $rules)
+    public function buildRules(RulesChecker $rules) 
     {
-        $rules->add($rules->isUnique(['email']));
-
+        $rules->add($rules->isUnique(['email'], 'El correo ya está registrado'));
         return $rules;
     }
 
