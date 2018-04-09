@@ -69,6 +69,10 @@ class UsersController extends AppController
 				$this->Flash->error('Datos inválidos, por favor reintente', ['key' => 'auth']);
 			}
 		}
+
+		if($this->Auth->user()) {
+			return $this->redirect(['controller' => 'Users', 'action' => 'home']);
+		}
 	}
 
 	public function home()
@@ -79,5 +83,38 @@ class UsersController extends AppController
 	public function logout()
 	{
 		return $this->redirect($this->Auth->logout());
+	}
+
+	public function edit($id = null)
+	{
+		$user = $this->Users->get($id);
+
+		if($this->request->is(['patch', 'post', 'put'])) {
+			$user = $this->Users->patchEntity($user, $this->request->data);
+			if($this->Users->save($user)) {
+				$this->Flash->success('El usuario ha sido modificado');
+				return $this->redirect(['action' => 'index']);
+			}
+			else {
+				$this->Flash->error('No se pudo modificar el usuario');
+			}
+		}
+
+		$this->set(compact('user'));
+	}
+
+	public function delete($id = null)
+	{
+		$this->request->allowMethod(['post', 'delete']);
+		$user = $this->Users->get($id);
+
+		if($this->Users->delete($user)) {
+			$this->Flash->success('El usuario #' . $id . ' ha sido eliminado.');
+		}
+		else {
+			$this->Flash->error('Error al eliminar al usuario #' . $id . ', por favor reintente.');
+		}
+
+		return $this->redirect(['action' =>'index']);
 	}
 }

@@ -1,3 +1,4 @@
+<h1>Editar usuario</h1>
 
 <div class="row">
     <div class="col-md-6 col-md-offset-3">
@@ -8,7 +9,7 @@
         <fieldset>
             <?= $this->element('users/fields') ?>
         </fieldset>
-        <?= $this->Form->button('Crear') ?>
+        <?= $this->Form->button('Editar') ?>
         <?= $this->Form->end() ?>
     </div>
 </div>

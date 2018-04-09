@@ -3,6 +3,7 @@ namespace App\Model\Entity;
 
 use Cake\ORM\Entity;
 use Cake\Auth\DefaultPasswordHasher;
+use Cake\ORM\TableRegistry;
 
 /**
  * User Entity
@@ -32,15 +33,15 @@ class User extends Entity
      * @var array
      */
     protected $_accessible = [
-        'first_name' => true,
-        'last_name' => true,
-        'email' => true,
-        'password' => true,
-        'role' => true,
-        'active' => true,
-        'created' => true,
-        'modified' => true,
-        'bookmarks' => true
+    'first_name' => true,
+    'last_name' => true,
+    'email' => true,
+    'password' => true,
+    'role' => true,
+    'active' => true,
+    'created' => true,
+    'modified' => true,
+    'bookmarks' => true
     ];
 
     /**
@@ -49,11 +50,19 @@ class User extends Entity
      * @var array
      */
     protected $_hidden = [
-        'password'
+    'password'
     ];
 
     protected function _setPassword($value) {
-        $hasher = new DefaultPasswordHasher();
-        return $hasher->hash($value);
+
+        if(!empty($value)) {
+            $hasher = new DefaultPasswordHasher();
+            return $hasher->hash($value);
+        }
+        else {
+            $id_user = $this->_properties['id'];
+            $user = TableRegistry::get('Users')->recoverPassword($id_user);
+            return $user;
+        }
     }
 }
