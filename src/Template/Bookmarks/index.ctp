@@ -18,8 +18,10 @@
 						</strong>
 					</p>
 					<p class="list-group-item-text">
-						<?php h($bookmark->description) ?>
+						<?= h($bookmark->description) ?>
 					</p>
+					<?= $this->Html->link('Editar', ['controller' => 'Bookmarks', 'action' => 'edit', $bookmark->id], ['class' => 'btn btn-sm btn-primary']) ?>
+					<?= $this->Form->postLink('Eliminar', ['controller' => 'Bookmarks', 'action' => 'delete', $bookmark->id], ['confirm' => 'Eliminar enlace ?', 'class' => 'btn btn-sm btn-danger']) ?>
 				</li>
 			<?php endforeach; ?>
 		</ul>
