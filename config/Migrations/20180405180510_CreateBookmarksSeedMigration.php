@@ -8,7 +8,7 @@ class CreateBookmarksSeedMigration extends AbstractMigration
         $faker = \Faker\Factory::create();
         $populator = new Faker\ORM\CakePHP\Populator($faker);
 
-        $populator->addEntity('Bookmarks', 200, [
+        $populator->addEntity('Bookmarks', 300, [
             'title' => function() use ($faker) {
                 return $faker->sentence($nbWords = 3, $variableNbWords = true);
             },
